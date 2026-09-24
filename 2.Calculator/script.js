@@ -50,7 +50,7 @@ if (operation.length > 0) {
 function esValido(numero) { //Metodo para comprobar si el numero es float o integer
 
     if(Number.isInteger(numero)){
-        return numero;
+        return true;
     }
 
     return Number.isFinite(numero) && (numero % 1 !== 0);
