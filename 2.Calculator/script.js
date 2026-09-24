@@ -16,7 +16,7 @@ if (operation.length > 0) {
         // console.log(typeof num2+" "+num2);
         // console.log(typeof operator+" "+operator);
 
-        //Comprobamos si los numeros son Float o Integer mediante la funcion, es válido.
+        //Comprobamos si los numeros son Float o Integer mediante la funcion esValido().
         
         if(esValido(num1) && esValido(num2)){
             switch (operator[0]) {
