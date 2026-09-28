@@ -129,7 +129,7 @@ do {
 function showInventory(){
 
     console.log("INVENTARIO"+
-        "\n===========");
+                "\n===========");
 
     // Para formatear la salida creo la fila que voy a enseñar en el bucle de las filas (obvio) y le añado como primer valor "["
     // Y luego cada vez que encuentro algo en la fila, se lo concateno a la variable fila que he creado añadiendo una ","
@@ -140,7 +140,7 @@ function showInventory(){
             if (inventario[i][j] === undefined) {
                 fila += "VACIO" + (j < inventario[i].length - 1 ? ", " : ""); // Comprobacion ultimo elemento
             } else {
-                fila += inventario[i][j].name +"("+inventario[i][j].quantity+")" +(j < inventario[i].length - 1 ? ", " : "");
+                fila += inventario[i][j].name + "("+inventario[i][j].quantity+")" + (j < inventario[i].length - 1 ? ", " : "");
             }
             
         }
