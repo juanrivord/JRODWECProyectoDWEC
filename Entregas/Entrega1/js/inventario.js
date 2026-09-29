@@ -6,11 +6,11 @@ class Item{
         this.name = name;
         this.description = description;
         this.maxStack = maxStack;
-        this.quantity = quantity; // Valor privado
+        this._quantity = quantity; // Valor privado
         
     }
 
-    set quantity(value){ // Si el valor "value" que pasamos es menor a 0 o mayor al maximo de stack devuelve 0, sino, el valor pasado.
+    set quantity(value){ 
         this._quantity = (value >= 0 && value <= this.maxStack) ? value : 0;
     }
 
@@ -28,6 +28,7 @@ class Item{
     showInfoShorted(){
         return this.name+"("+this._quantity+")"
     }
+
 }
 
 
@@ -76,7 +77,6 @@ do {
         } else {
             opcion = parseInt(input,10); 
             // Pasamos la opcion a INT ya que el switch no acepta strings, parseInt (cadena_a_convertir,base_a_la_que_convertir)
-            // En este caso como son numero naturales, la base es 10
         }
 
     switch (opcion) {
@@ -131,10 +131,8 @@ function showInventory(){
     console.log("INVENTARIO"+
                 "\n===========");
 
-    // Para formatear la salida creo la fila que voy a enseñar en el bucle de las filas (obvio) y le añado como primer valor "["
-    // Y luego cada vez que encuentro algo en la fila, se lo concateno a la variable fila que he creado añadiendo una ","
-    // Para asegurar no poner comas al final del todo, compruebo si es el ultimo elemento y con un operador ternario añado una , o nada "".
-    for (let i = 0; i < inventario.length; i++) {
+
+        for (let i = 0; i < inventario.length; i++) {
         let fila = "[";
         for (let j = 0; j < inventario[i].length; j++) {
             if (inventario[i][j] === undefined) {
@@ -158,11 +156,11 @@ function showQuickAccessBar(){
     let quickAccesBar = inventario[0];
     let fila = "[";
 
-    quickAccesBar.forEach((element, index) => { // Añado el indice en el foreach para hacer la comprobacion de ultimo elemento.
-        let separador = (index < quickAccesBar.length - 1) ? ", " : ""; // Esta comprobacion se hace igual que antes, pero en un bucle for each usando el index.
+    quickAccesBar.forEach((element, index) => { 
+        let separador = (index < quickAccesBar.length - 1) ? ", " : ""; 
 
         if(element === undefined){
-            fila += "VACIO"+separador; // Al meter el separador en una variable se la añado al final de los dos resultados.
+            fila += "VACIO"+separador; 
         }else{
             fila += element.showInfoShorted()+separador;
         }
@@ -180,15 +178,11 @@ function showQuickAccessBar(){
 function searchItem() {
     let input = prompt("Introduce el nombre del item a buscar: ");
 
-    if (input === null || input.trim() === "") { //Compruebo si esta vacio o la entrada ha sido nula. trim() quita los espacios.
+    if (input === null || input.trim() === "") { 
         alert("Introduce un item válido");
         return;
     }
 
-    // Para poder formatear la salida de una manera leible, lo que hago es a parte de capturar el objeto a buscar en "input".
-    // Creo un array de posiciones para almacenar las posiciones en las que se encuentra.
-    // Creamos un contador para sumar las cantidades de los objetos.
-    // Y una flag para regular si el item que buscamos existe o no
     let itemToSearch = input.trim().toLowerCase();
     let positions = [];
     let quantityCounter = 0;
@@ -198,16 +192,16 @@ function searchItem() {
         for (let j = 0; j < inventario[i].length; j++) {
             let actualItem = inventario[i][j];
 
-            // Esta comprobacion busca que el item exista, y sea el mismo que estamos buscando
+            
             if (actualItem !== undefined && actualItem.name.toLowerCase() === itemToSearch) {
                 positions.push("["+i+"]"+"["+j+"]"); // .push añade al array que hemos creado antes lo que queramos, en este caso las posiciones
-                quantityCounter += actualItem.quantity; // sumamos la cantidad que tenga el item
+                quantityCounter += actualItem.quantity; 
                 if (!found) found = actualItem; // Añadimos el item a la variable ya que existe, para poder tratarlo luego, esto solo ocurre una vez.
             }
         }
     }
 
-    if (positions.length === 0) { // Si el array de posiciones no ha recibido ninguna posicion, damos por hecho que no esta o no existe
+    if (positions.length === 0) {
         alert("El item solicitado no existe o no se encuentra en el inventario");
         return;
     }
