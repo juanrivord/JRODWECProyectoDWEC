@@ -11,7 +11,7 @@ class Item{
     }
 
     set quantity(value){ 
-        this._quantity = (value >= 0 && value <= this.maxStack) ? value : 0;
+        this._quantity = (value >= 0 && value <= this.maxStack) ? value : this.maxStack;
     }
 
     get quantity(){
@@ -57,6 +57,7 @@ inventario [3][1]= item4;
 inventario [3][8]= item5;
 
 // ---------- MENU ----------
+/*
 let opcion;
 
 do {
@@ -121,7 +122,7 @@ do {
     }
     
 } while (opcion !== 0); 
-
+*/
 
 // ---------- FUNCIONES ----------
 
@@ -216,6 +217,16 @@ function searchItem() {
 
 function addItem(){
 
+    let nombreNuevo = prompt("Introduzca el nombre del item nuevo: ");
+    let descriptionNuevo = prompt("Introduzca la descripcion del item nuevo: ");
+    let maximoNuevo = prompt("Introduzca el máximo del item nuevo: ");
+    let cantidadNuevo = prompt("Introduzca la cantidad del item nuevo: ");
+
+    let itemNuevo = new Item(nombreNuevo.trim(),descriptionNuevo.trim(),maximoNuevo,0);
+    itemNuevo.quantity = cantidadNuevo;
+
+    itemNuevo.showInfo();
+
 }
 
 function moveItem(){
@@ -239,5 +250,5 @@ function getMostQuantityStack(){
 
 // ---------- PRUEBAS ----------
 
-// showInventory();
-// showQuickAccessBar();
+showInventory();
+//showQuickAccessBar();
