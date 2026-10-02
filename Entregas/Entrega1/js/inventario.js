@@ -2,11 +2,11 @@
 * ---------- DEFINICION DE VARIABLES Y CLASES ----------
 */
 class Item{ 
-    constructor(name, description, quantity, maxStack) {
+    constructor(name, description, maxStack, quantity) {
         this.name = name;
         this.description = description;
         this.maxStack = maxStack;
-        this._quantity = quantity; // Valor privado
+        this._quantity = quantity;
         
     }
 
@@ -21,8 +21,8 @@ class Item{
     showInfo(){
         console.log("Nombre: "+this.name,
             "\nDescripción: "+this.description,
-            "\nCantidad: "+this._quantity,
-            "\nMáximo de Stack: "+this.maxStack);
+            "\nMáximo de Stack: "+this.maxStack,
+            "\nCantidad: "+this._quantity);
     }
 
     showInfoShorted(){
@@ -46,6 +46,7 @@ let item2 = new Item("Manzana","El fruto que eva se comio cuando no debia",16,64
 let item3 = new Item("Antorcha","Un palo con un cacho carbon que arde",36,64);
 let item4 = new Item("Espada de diamante","Espada hecha del material mas duro del planeta",1,1);
 let item5 = new Item("Pico de hierro","Pico hecho de 3 simples lingotes de hierro",1,1);
+let item6 = new Item("prueba","prueba",1,1);
 
 
 inventario [0][0]= item1;
@@ -215,17 +216,40 @@ function searchItem() {
     console.log("Cantidad total: "+quantityCounter);
 }
 
-function addItem(){
 
+
+
+
+// Añadir un item
+function addItem(){ // MEJORAR, SI EL ITEM YA EXISTE, NO PEDIR MAS DATOS QUE EL NOMBRE
+    
+    // ASIGNACIONES Y COMPROBACIONES
     let nombreNuevo = prompt("Introduzca el nombre del item nuevo: ");
     let descriptionNuevo = prompt("Introduzca la descripcion del item nuevo: ");
     let maximoNuevo = prompt("Introduzca el máximo del item nuevo: ");
-    let cantidadNuevo = prompt("Introduzca la cantidad del item nuevo: ");
+    while (!Number.isInteger(Number(maximoNuevo)) || maximoNuevo === null) {
+        maximoNuevo = prompt("ERROR:Introduzca un numero válido en el máximo de item: ");
+    }
 
+    let cantidadNuevo = prompt("Introduzca la cantidad del item nuevo: ");
+    while (!Number.isInteger(Number(cantidadNuevo)) || cantidadNuevo === null) { // COMPROBACION SI ES UN NUMERO
+        cantidadNuevo = prompt("ERROR:Introduzca un numero válido en la cantidad del item, introduzca una cantidad válida: ");
+
+    }
+
+    while(Number(cantidadNuevo) > Number(maximoNuevo)){ // COMPROBACION SI ES MAS QUE SU MAXIMO
+            cantidadNuevo = prompt("ERROR:La cantidad no puede superar su stack máximo, introduzca una cantidad válida: ");
+    }
+
+
+    // CREACION NUEVO ITEM
     let itemNuevo = new Item(nombreNuevo.trim(),descriptionNuevo.trim(),maximoNuevo,0);
     itemNuevo.quantity = cantidadNuevo;
-
     itemNuevo.showInfo();
+
+
+
+    
 
 }
 
@@ -246,6 +270,20 @@ function getMostQuantityStack(){
 }
 
 
+// ---------- FUNCIONES AÑADIDAS ----------
+
+function itemExistsInInventory(item){
+    
+    for (let i = 0; i < inventario.length; i++) {
+        for (let j = 0; j < inventario[i].length; j++) {
+            if(inventario[i][j].name.toLowerCase() === item.name.toLowerCase()){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
 
 
 // ---------- PRUEBAS ----------
