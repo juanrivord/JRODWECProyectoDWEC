@@ -33,36 +33,35 @@ class Item{
 
 
 
-// ---------- MATRIZ "INVENTARIO" ----------
+// ---------- MATRIZ "inventory" ----------
 
-let inventario = Array(4).fill().map(() => Array(9).fill());
+let inventory = Array(4).fill().map(() => Array(9).fill());
 
 // ---------- VALORES HARCODEADOS ----------
 
 
 
-let item1 = new Item("Piedra","Trozo solido de roca dura",45,64);
-let item2 = new Item("Manzana","El fruto que eva se comio cuando no debia",16,64);
-let item3 = new Item("Antorcha","Un palo con un cacho carbon que arde",36,64);
+let item1 = new Item("Piedra","Trozo solido de roca dura",64,64);
+let item2 = new Item("Manzana","El fruto que eva se comio cuando no debia",64,16);
+let item3 = new Item("Antorcha","Un palo con un cacho carbon que arde",64,32);
 let item4 = new Item("Espada de diamante","Espada hecha del material mas duro del planeta",1,1);
 let item5 = new Item("Pico de hierro","Pico hecho de 3 simples lingotes de hierro",1,1);
 let item6 = new Item("prueba","prueba",1,1);
 
 
-inventario [0][0]= item1;
-inventario [1][2]= item1;
-inventario [2][8]= item1;
-inventario [1][4]= item2;
-inventario [2][3]= item3;
-inventario [3][1]= item4;
-inventario [3][8]= item5;
+inventory [0][0]= item1;
+inventory [1][2]= item2;
+inventory [2][8]= item3;
+inventory [1][4]= item4;
+inventory [2][3]= item5;
+inventory [3][1]= item6;
 
 // ---------- MENU ----------
-/*
+
 let opcion;
 
 do {
-    let input = prompt("INVENTARIO DE MINECRAFT" +
+    let input = prompt("inventario DE MINECRAFT" +
         "\n======================================" +
         "\n1. Mostrar inventario completo " +
         "\n2. Mostrar barra de accesos rápidos" +
@@ -123,24 +122,24 @@ do {
     }
     
 } while (opcion !== 0); 
-*/
+
 
 // ---------- FUNCIONES ----------
 
-// Mostrar inventario
+// Mostrar inventory
 function showInventory(){
 
-    console.log("INVENTARIO"+
+    console.log("Inventario"+
                 "\n===========");
 
 
-        for (let i = 0; i < inventario.length; i++) {
+        for (let i = 0; i < inventory.length; i++) {
         let fila = "[";
-        for (let j = 0; j < inventario[i].length; j++) {
-            if (inventario[i][j] === undefined) {
-                fila += "VACIO" + (j < inventario[i].length - 1 ? ", " : ""); // Comprobacion ultimo elemento
+        for (let j = 0; j < inventory[i].length; j++) {
+            if (inventory[i][j] === undefined) {
+                fila += "VACIO" + (j < inventory[i].length - 1 ? ", " : ""); // Comprobacion ultimo elemento
             } else {
-                fila += inventario[i][j].name + "("+inventario[i][j].quantity+")" + (j < inventario[i].length - 1 ? ", " : "");
+                fila += inventory[i][j].name + "("+inventory[i][j].quantity+")" + (j < inventory[i].length - 1 ? ", " : "");
             }
             
         }
@@ -149,13 +148,13 @@ function showInventory(){
         console.log(fila);
     }
 
-    // console.table(inventario);
+    // console.table(inventory);
 }
 
 
 // Mostrar barra de accesos rapidos
 function showQuickAccessBar(){
-    let quickAccesBar = inventario[0];
+    let quickAccesBar = inventory[0];
     let fila = "[";
 
     quickAccesBar.forEach((element, index) => { 
@@ -180,7 +179,7 @@ function showQuickAccessBar(){
 function searchItem() {
     let input = prompt("Introduce el nombre del item a buscar: ");
 
-    if (input === null || input.trim() === "") { 
+    if (input === null || input.trim() === "") { // Si se introduce algo raro o nada se va
         alert("Introduce un item válido");
         return;
     }
@@ -190,21 +189,17 @@ function searchItem() {
     let quantityCounter = 0;
     let found = null;
 
-    for (let i = 0; i < inventario.length; i++) {
-        for (let j = 0; j < inventario[i].length; j++) {
-            let actualItem = inventario[i][j];
-
-            
-            if (actualItem !== undefined && actualItem.name.toLowerCase() === itemToSearch) {
-                positions.push("["+i+"]"+"["+j+"]"); // .push añade al array que hemos creado antes lo que queramos, en este caso las posiciones
-                quantityCounter += actualItem.quantity; 
-                if (!found) found = actualItem; // Añadimos el item a la variable ya que existe, para poder tratarlo luego, esto solo ocurre una vez.
-            }
+    // Recorrido de la matriz mediante funcion callback
+    forEachSlot((actualItem, i, j) => {
+        if (actualItem !== undefined && actualItem.name.toLowerCase() === itemToSearch) {
+            positions.push("["+i+"]"+"["+j+"]"); // .push añade al array que hemos creado antes lo que queramos, en este caso las posiciones
+            quantityCounter += actualItem.quantity; 
+            if (!found) found = actualItem; // Añadimos el item a la variable ya que existe, para poder tratarlo luego, esto solo ocurre una vez.
         }
-    }
+    });
 
     if (positions.length === 0) {
-        alert("El item solicitado no existe o no se encuentra en el inventario");
+        alert("El item solicitado no existe o no se encuentra en el inventory");
         return;
     }
 
@@ -221,47 +216,98 @@ function searchItem() {
 
 
 // Añadir un item
-function addItem(){ // MEJORAR, SI EL ITEM YA EXISTE, NO PEDIR MAS DATOS QUE EL NOMBRE
-    
-    // ASIGNACIONES Y COMPROBACIONES
-    let nombreNuevo = prompt("Introduzca el nombre del item nuevo: ");
+function addItem() {
 
-    if(itemExistsInInventory(nombreNuevo)){
-
-    }else{
-        let descriptionNuevo = prompt("Introduzca la descripcion del item nuevo: ");
-        let maximoNuevo = prompt("Introduzca el máximo del item nuevo: ");
-        while (!Number.isInteger(Number(maximoNuevo)) || maximoNuevo === null) {
-            maximoNuevo = prompt("ERROR:Introduzca un numero válido en el máximo de item: ");
+    let inputName = prompt("Introduzca el nombre del ítem: ");
+    if (!inputName || inputName.trim() === "") {
+        alert("Operación cancelada o nombre no válido.");
+        return;
     }
 
-        let cantidadNuevo = prompt("Introduzca la cantidad del item nuevo: ");
-        while (!Number.isInteger(Number(cantidadNuevo)) || cantidadNuevo === null) { // COMPROBACION SI ES UN NUMERO
-            cantidadNuevo = prompt("ERROR:Introduzca un numero válido en la cantidad del item, introduzca una cantidad válida: ");
+    inputName = inputName.trim();
+    let existingItem = findItemInInventory(inputName); // Comprobacion de si el item ya existe dentro del inventario
+
+    let finalName = existingItem ? existingItem.name : inputName;
+    let description;
+    let maxStack;
+
+    // Si ya existe en el inventario, reutilizamos su información
+    if (existingItem !== null) {
+        description = existingItem.description;
+        maxStack = existingItem.maxStack;
+        alert("El ítem ya existe en el inventario. Stack máximo (" + maxStack + ").");
+    } else {
+        // Si es nuevo, pedimos descripción y stack máximo
+        description = prompt("Introduzca la descripción del ítem: ");
+        if (description === null) return;
+
+        let maxInput = prompt("Introduzca el tamaño máximo de stack (número entero positivo): ");
+        while (!Number.isInteger(Number(maxInput)) || Number(maxInput) <= 0) {
+            maxInput = prompt("ERROR: Introduzca un número entero mayor que 0: ");
+            if (maxInput === null) return;
+        }
+        maxStack = parseInt(maxInput, 10);
+    }
+
+    // Pedimos la cantidad total que el usuario desea añadir
+    let cantInput = prompt("Introduzca la cantidad que desea añadir: ");
+    while (!Number.isInteger(Number(cantInput)) || Number(cantInput) <= 0) {
+        cantInput = prompt("ERROR: Debe introducir una cantidad entera positiva: ");
+        if (cantInput === null) return;
+    }
+
+
+    // Variables de control de cantidad (necesarias para las operaciones de añadir)
+    let remainingQuantity = parseInt(cantInput, 10); 
+    let originalRequested = remainingQuantity;
+
+    // Rellenamos los stacks existentes que tengan espacio, si remainingQuantity es 0, detenemos el recorrido devolviendo false
+    forEachSlot((slot) => {
+        if (remainingQuantity <= 0) return false;
+
+        if (slot !== undefined && slot.name.toLowerCase() === finalName.toLowerCase()) {
+            let availableSpace = slot.maxStack - slot.quantity;
+
+            if (availableSpace > 0) { // Añadimos la cantidad al slot y restamos del total del item
+                let toAdd = Math.min(availableSpace, remainingQuantity);
+                slot.quantity += toAdd;
+                remainingQuantity -= toAdd;
+            }
+        }
+    });
+
+    // Si aún sobra cantidad, ocupar casillas vacías (undefined)
+    forEachSlot((slot, i, j) => {
+        if (remainingQuantity <= 0) return false;
+
+        if (slot === undefined) {
+            let toAdd = Math.min(maxStack, remainingQuantity);
+
+            // Creamos un nuevo objeto Item independiente para esta casilla
+            inventory[i][j] = new Item(finalName, description, maxStack, toAdd);
+            remainingQuantity -= toAdd;
+        }
+    });
+
+    // Resultado final + mensaje al usuario
+    if (remainingQuantity === 0) {
+
+        alert("Se añadieron con éxito las " + originalRequested + " unidades de " + finalName + ".");
+
+    } else if (remainingQuantity < originalRequested) {
+
+        let added = originalRequested - remainingQuantity;
+        alert("Espacio insuficiente. Se pudieron añadir " + added + " unidades, pero " + remainingQuantity + " no cabian.");
+
+    } else {
+
+        alert("ERROR:Inventario lleno No hay espacio disponible para añadir " + finalName + ".");
 
     }
 
-        while(Number(cantidadNuevo) > Number(maximoNuevo)){ // COMPROBACION SI ES MAS QUE SU MAXIMO
-            cantidadNuevo = prompt("ERROR:La cantidad no puede superar su stack máximo, introduzca una cantidad válida: ");
-    }
-
-
-    // CREACION NUEVO ITEM
-    let itemNuevo = new Item(nombreNuevo.trim(),descriptionNuevo.trim(),maximoNuevo,0);
-    itemNuevo.quantity = cantidadNuevo;
-    itemNuevo.showInfo();
-    }
-
-
-
-
-    
-
-
-
-    
-
+    showInventory();
 }
+
 
 function moveItem(){
 
@@ -282,27 +328,40 @@ function getMostQuantityStack(){
 
 // ---------- FUNCIONES AÑADIDAS ----------
 
-function itemExistsInInventory(itemToSearch) {
-
-    let searchName = (typeof itemToSearch === 'object' && itemToSearch !== null) ? itemToSearch.name.toLowerCase() : itemToSearch.toLowerCase();
-
-    if (!searchName) return false;
-
-    console.log("Item introducido: "+searchName);
-
-    for (let i = 0; i < inventario.length; i++) {
-        for (let j = 0; j < inventario[i].length; j++) {
-
-            if (inventario[i][j] !== undefined && inventario[i][j].name.toLowerCase() === searchName.toLowerCase()) return true;
-
+// Funcion auxiliar para recorrer la matriz utilizando la funcion sin tener que repetir codigo
+function forEachSlot(callback) {
+    for (let i = 0; i < inventory.length; i++) {
+        for (let j = 0; j < inventory[i].length; j++) {
+            let continueLoop = callback(inventory[i][j], i, j);
+            if (continueLoop === false) { // Si el callback devuelve false, rompemos el recorrido
+                return;
             }
-        } 
+        }
+    }
+}
 
-    return false;
+// Buscar y devolver la referencia del item en caso de encontrarlo
+function findItemInInventory(itemToSearch) {
+    if (!itemToSearch) return null;
+
+    let searchName = (typeof itemToSearch === 'object' && itemToSearch !== null) ? itemToSearch.name : itemToSearch;
+
+    searchName = searchName.trim().toLowerCase();
+    let found = null;
+
+    // Busqueda reutilizando forEachSlot
+    forEachSlot((actualItem) => {
+        if (actualItem !== undefined && actualItem.name.toLowerCase() === searchName) {
+            found = actualItem;
+            return false; // Detenemos la busqueda al encontrar la primera coincidencia
+        }
+    });
+
+    return found;
 }
 
 
 // ---------- PRUEBAS ----------
 
-showInventory();
-//showQuickAccessBar();
+// showInventory();
+// showQuickAccessBar();
