@@ -225,19 +225,23 @@ function addItem(){ // MEJORAR, SI EL ITEM YA EXISTE, NO PEDIR MAS DATOS QUE EL 
     
     // ASIGNACIONES Y COMPROBACIONES
     let nombreNuevo = prompt("Introduzca el nombre del item nuevo: ");
-    let descriptionNuevo = prompt("Introduzca la descripcion del item nuevo: ");
-    let maximoNuevo = prompt("Introduzca el máximo del item nuevo: ");
-    while (!Number.isInteger(Number(maximoNuevo)) || maximoNuevo === null) {
-        maximoNuevo = prompt("ERROR:Introduzca un numero válido en el máximo de item: ");
+
+    if(itemExistsInInventory(nombreNuevo)){
+
+    }else{
+        let descriptionNuevo = prompt("Introduzca la descripcion del item nuevo: ");
+        let maximoNuevo = prompt("Introduzca el máximo del item nuevo: ");
+        while (!Number.isInteger(Number(maximoNuevo)) || maximoNuevo === null) {
+            maximoNuevo = prompt("ERROR:Introduzca un numero válido en el máximo de item: ");
     }
 
-    let cantidadNuevo = prompt("Introduzca la cantidad del item nuevo: ");
-    while (!Number.isInteger(Number(cantidadNuevo)) || cantidadNuevo === null) { // COMPROBACION SI ES UN NUMERO
-        cantidadNuevo = prompt("ERROR:Introduzca un numero válido en la cantidad del item, introduzca una cantidad válida: ");
+        let cantidadNuevo = prompt("Introduzca la cantidad del item nuevo: ");
+        while (!Number.isInteger(Number(cantidadNuevo)) || cantidadNuevo === null) { // COMPROBACION SI ES UN NUMERO
+            cantidadNuevo = prompt("ERROR:Introduzca un numero válido en la cantidad del item, introduzca una cantidad válida: ");
 
     }
 
-    while(Number(cantidadNuevo) > Number(maximoNuevo)){ // COMPROBACION SI ES MAS QUE SU MAXIMO
+        while(Number(cantidadNuevo) > Number(maximoNuevo)){ // COMPROBACION SI ES MAS QUE SU MAXIMO
             cantidadNuevo = prompt("ERROR:La cantidad no puede superar su stack máximo, introduzca una cantidad válida: ");
     }
 
@@ -246,6 +250,12 @@ function addItem(){ // MEJORAR, SI EL ITEM YA EXISTE, NO PEDIR MAS DATOS QUE EL 
     let itemNuevo = new Item(nombreNuevo.trim(),descriptionNuevo.trim(),maximoNuevo,0);
     itemNuevo.quantity = cantidadNuevo;
     itemNuevo.showInfo();
+    }
+
+
+
+
+    
 
 
 
@@ -272,15 +282,21 @@ function getMostQuantityStack(){
 
 // ---------- FUNCIONES AÑADIDAS ----------
 
-function itemExistsInInventory(item){
-    
+function itemExistsInInventory(itemToSearch) {
+
+    let searchName = (typeof itemToSearch === 'object' && itemToSearch !== null) ? itemToSearch.name.toLowerCase() : itemToSearch.toLowerCase();
+
+    if (!searchName) return false;
+
+    console.log("Item introducido: "+searchName);
+
     for (let i = 0; i < inventario.length; i++) {
         for (let j = 0; j < inventario[i].length; j++) {
-            if(inventario[i][j].name.toLowerCase() === item.name.toLowerCase()){
-                return true;
+
+            if (inventario[i][j] !== undefined && inventario[i][j].name.toLowerCase() === searchName.toLowerCase()) return true;
+
             }
-        }
-    }
+        } 
 
     return false;
 }
