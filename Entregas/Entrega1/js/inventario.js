@@ -297,7 +297,7 @@ function addItem() {
     } else if (remainingQuantity < originalRequested) {
 
         let added = originalRequested - remainingQuantity;
-        alert("Espacio insuficiente. Se pudieron añadir " + added + " unidades, pero " + remainingQuantity + " no cabian.");
+        alert("ERROR:Espacio insuficiente. Se pudieron añadir " + added + " unidades, pero " + remainingQuantity + " no cabian.");
 
     } else {
 
