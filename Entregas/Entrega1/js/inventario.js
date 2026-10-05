@@ -328,11 +328,12 @@ function getMostQuantityStack(){
 
 // ---------- FUNCIONES AÑADIDAS ----------
 
-// Funcion auxiliar para recorrer la matriz utilizando la funcion sin tener que repetir codigo
+// Funcion auxiliar para recorrer la matriz devolviendo lo que requiera la funcion.
+// BTW el parametro callback no es un numero ni texto ni nada, lo que hace es esperar instrucciones ejecutables, una funcion vaya.
 function forEachSlot(callback) {
     for (let i = 0; i < inventory.length; i++) {
         for (let j = 0; j < inventory[i].length; j++) {
-            let continueLoop = callback(inventory[i][j], i, j);
+            let continueLoop = callback(inventory[i][j], i, j); // Cuando llega aqui, devuelve a la funcion que llame esta funcion: El objeto, la fila y la columna
             if (continueLoop === false) { // Si el callback devuelve false, rompemos el recorrido
                 return;
             }
@@ -340,7 +341,7 @@ function forEachSlot(callback) {
     }
 }
 
-// Buscar y devolver la referencia del item en caso de encontrarlo
+// Buscar y devuelve la referencia del item en caso de encontrarlo
 function findItemInInventory(itemToSearch) {
     if (!itemToSearch) return null;
 
