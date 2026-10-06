@@ -236,8 +236,9 @@ function addItem() {
         description = existingItem.description;
         maxStack = existingItem.maxStack;
         alert("El ítem ya existe en el inventario. Stack máximo (" + maxStack + ").");
-    } else {
-        // Si es nuevo, pedimos descripción y stack máximo
+
+    } else {// Si es nuevo, pedimos descripción y stack máximo
+
         description = prompt("Introduzca la descripción del ítem: ");
         if (description === null) return;
 
@@ -249,17 +250,20 @@ function addItem() {
         maxStack = parseInt(maxInput, 10);
     }
 
+
     // Pedimos la cantidad total que el usuario desea añadir
-    let cantInput = prompt("Introduzca la cantidad que desea añadir: ");
-    while (!Number.isInteger(Number(cantInput)) || Number(cantInput) <= 0) {
-        cantInput = prompt("ERROR: Debe introducir una cantidad entera positiva: ");
-        if (cantInput === null) return;
+    let canInput = prompt("Introduzca la cantidad que desea añadir: ");
+    while (!Number.isInteger(Number(canInput)) || Number(canInput) <= 0) {
+        canInput = prompt("ERROR: Debe introducir una cantidad entera positiva: ");
+        if (canInput === null) return;
     }
 
 
     // Variables de control de cantidad (necesarias para las operaciones de añadir)
-    let remainingQuantity = parseInt(cantInput, 10); 
+    let remainingQuantity = parseInt(canInput, 10); 
     let originalRequested = remainingQuantity;
+
+
 
     // Rellenamos los stacks existentes que tengan espacio, si remainingQuantity es 0, detenemos el recorrido devolviendo false
     forEachSlot((slot) => {
@@ -276,6 +280,8 @@ function addItem() {
         }
     });
 
+
+
     // Si aún sobra cantidad, ocupar casillas vacías (undefined)
     forEachSlot((slot, i, j) => {
         if (remainingQuantity <= 0) return false;
@@ -289,6 +295,8 @@ function addItem() {
         }
     });
 
+
+    
     // Resultado final + mensaje al usuario
     if (remainingQuantity === 0) {
 
