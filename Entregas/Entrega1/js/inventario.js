@@ -57,7 +57,7 @@ inventory [2][3]= item5;
 inventory [3][1]= item6;
 
 // ---------- MENU ----------
-
+/*
 let opcion;
 
 do {
@@ -122,7 +122,7 @@ do {
     }
     
 } while (opcion !== 0); 
-
+*/
 
 // ---------- FUNCIONES ----------
 
@@ -372,5 +372,5 @@ function findItemInInventory(itemToSearch) {
 
 // ---------- PRUEBAS ----------
 
-// showInventory();
-// showQuickAccessBar();
+showInventory();
+showQuickAccessBar();
