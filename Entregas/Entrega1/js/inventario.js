@@ -137,9 +137,9 @@ function showInventory(){
         let fila = "[";
         for (let j = 0; j < inventory[i].length; j++) {
             if (inventory[i][j] === undefined) {
-                fila += "VACIO" + (j < inventory[i].length - 1 ? ", " : ""); // Comprobacion ultimo elemento
+                fila += "VACIO" + "["+i+","+j+"]" + (j < inventory[i].length - 1 ? ", " : "" ) ; // Comprobacion ultimo elemento
             } else {
-                fila += inventory[i][j].name + "("+inventory[i][j].quantity+")" + (j < inventory[i].length - 1 ? ", " : "");
+                fila += inventory[i][j].name + "["+i+","+j+"]" + "("+inventory[i][j].quantity+")" + (j < inventory[i].length - 1 ? ", " : "") ;
             }
             
         }
@@ -150,6 +150,7 @@ function showInventory(){
 
     // console.table(inventory);
 }
+
 
 
 // Mostrar barra de accesos rapidos
@@ -173,6 +174,7 @@ function showQuickAccessBar(){
         "\n=======================");
     console.log(fila);
 }
+
 
 
 // Buscar un item
@@ -199,7 +201,7 @@ function searchItem() {
     });
 
     if (positions.length === 0) {
-        alert("El item solicitado no existe o no se encuentra en el inventory");
+        alert("El item solicitado no existe o no se encuentra en el inventario");
         return;
     }
 
@@ -210,8 +212,6 @@ function searchItem() {
     console.log("Ubicaciones: "+positions.join(", ")); // Simplemente añadimos una ", " entre cada indice del array
     console.log("Cantidad total: "+quantityCounter);
 }
-
-
 
 
 
@@ -317,17 +317,94 @@ function addItem() {
 }
 
 
-function moveItem(){
 
+// Mover un item
+function moveItem() {
+    showInventory();
+
+    // Pido el item que voy a mover
+    let inputPosition = prompt("Elija un item para mover: Ej: 0.0 - 0.2 - 3.5");
+    let cordinates = getCordinates(inputPosition);
+
+    // Comprobacion de sintaxis y rango de cordenadas
+    while (!cordinates) {
+        alert("ERROR: Introduzca unas coordenadas válidas");
+        inputPosition = prompt("Elija un item para mover: Ej: 0.0 - 0.2 - 3.5");
+        cordinates = getCordinates(inputPosition); // Sin 'let': actualizamos la variable evaluada por el bucle
+    }
+    let inputItemPositions = cordinates;
+    console.log("Origen:", inputItemPositions);
+
+    // Selecciono el item
+    let selectedItem = findItemWithCordinates(inputItemPositions[0], inputItemPositions[1]);
+
+
+    // Si la casilla esta vacia, da error y salgo
+    if (!selectedItem) {
+        alert("La casilla seleccionada está vacía. No hay ningún ítem para mover.");
+        return;
+    }
+
+    // Compruebo si el item es un objeto y saco su nombre
+    let itemName = (typeof selectedItem === "object" && selectedItem !== null) 
+        ? selectedItem.name 
+        : selectedItem;
+
+    // Pido la posicion a la que moverlo
+    let outputPosition = prompt("Item elegido: " + itemName + "\nElija una posición a la que mover:");
+    cordinates = getCordinates(outputPosition);
+
+    // Comprobacion de sintaxis y rango de cordenadas otra vez
+    while (!cordinates) {
+        alert("ERROR: Introduzca unas coordenadas válidas");
+        outputPosition = prompt("Item elegido: " + itemName + "\nElija una posición a la que mover:");
+        cordinates = getCordinates(outputPosition);
+    }
+    let outputItemPositions = cordinates;
+    console.log("Destino:", outputItemPositions);
+
+
+    // Empezamos a mirar si la posicion esta vacía, si lo está movemos el item
+    // Si no esta vacía comprobamos si el item es el mismo y lo podemos añadir
+    // Si no es el mismo y no esta vacía, salimos
+    let targetItem = findItemWithCordinates(outputItemPositions[0], outputItemPositions[1]);
+
+        if (!targetItem) { // LA CASILLA ESTA VACIA
+
+            console.log("La casilla está vacía, moviendo...");
+
+        } 
+            else if (targetItem.name.toLowerCase() === selectedItem.name.toLowerCase()) { // EL ITEM ES EL MISMO
+
+                console.log("El item es el mismo, comprobando si se puede añadir...");
+
+            } 
+                else { // EL ITEM NO ES EL MISMO
+
+                    alert("ERROR: Casilla no disponible");
+
+                }
+
+   
+    
 }
+
+
+
 
 function deleteItem(){
 
 }
 
+
+
+
 function countFreeSpaces(){
 
 }
+
+
+
 
 function getMostQuantityStack(){
 
@@ -349,6 +426,8 @@ function forEachSlot(callback) {
     }
 }
 
+
+
 // Buscar y devuelve la referencia del item en caso de encontrarlo
 function findItemInInventory(itemToSearch) {
     if (!itemToSearch) return null;
@@ -367,6 +446,43 @@ function findItemInInventory(itemToSearch) {
     });
 
     return found;
+}
+
+
+
+
+// Busca un item usando cordenadas como parametro, comprueba rangos y devuelve el item
+function findItemWithCordinates(row, col) {
+    if (row < 0 || row >= inventory.length) {
+        return null;
+    }
+    if (col < 0 || col >= inventory[row].length) {
+        return null;
+    }
+
+    let item = inventory[row][col];
+    return item !== undefined ? item : null;
+}
+
+
+
+
+// De un texto tipo: 0.1 o 0,1 devuelve unas cordenadas
+function getCordinates(input) {
+    let textInput = String(input);
+
+    let regex = /^([0-3])[.,]([0-8])$/;
+    
+    let coincidence = textInput.match(regex);
+
+    if (!coincidence) {
+        return false; 
+    }
+
+    let row = parseInt(coincidence[1], 10);
+    let column = parseInt(coincidence[2], 10);
+
+    return ([row, column]) ? [row, column] : null;
 }
 
 
