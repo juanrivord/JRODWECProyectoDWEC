@@ -1,69 +1,59 @@
 /*
 * ---------- DEFINICION DE VARIABLES Y CLASES ----------
 */
-class Item{ 
+class Item { 
     constructor(name, description, maxStack, quantity) {
         this.name = name;
         this.description = description;
         this.maxStack = maxStack;
         this._quantity = quantity;
-        
     }
 
-    set quantity(value){ 
+    set quantity(value) { 
         this._quantity = (value >= 0 && value <= this.maxStack) ? value : this.maxStack;
     }
 
-    get quantity(){
+    get quantity() {
         return this._quantity;
     }
 
-    showInfo(){
-        console.log("Nombre: "+this.name,
-            "\nDescripción: "+this.description,
-            "\nMáximo de Stack: "+this.maxStack,
-            "\nCantidad: "+this._quantity);
+    showInfo() {
+        console.log("Nombre: " + this.name,
+            "\nDescripción: " + this.description,
+            "\nMáximo de Stack: " + this.maxStack,
+            "\nCantidad: " + this._quantity);
     }
 
-    showInfoShorted(){
-        return this.name+"("+this._quantity+")"
+    showInfoShorted() {
+        return this.name + "(" + this._quantity + ")";
     }
-
 }
 
-
-
 // ---------- MATRIZ "inventory" ----------
-
 let inventory = Array(4).fill().map(() => Array(9).fill());
 
 // ---------- VALORES HARCODEADOS ----------
+let item1 = new Item("Piedra", "Trozo solido de roca dura", 64, 64);
+let item2 = new Item("Manzana", "El fruto que eva se comio cuando no debia", 64, 16);
+let item3 = new Item("Antorcha", "Un palo con un cacho carbon que arde", 64, 32);
+let item4 = new Item("Espada de diamante", "Espada hecha del material mas duro del planeta", 1, 1);
+let item5 = new Item("Pico de hierro", "Pico hecho de 3 simples lingotes de hierro", 1, 1);
+let item6 = new Item("prueba", "prueba", 1, 1);
 
-
-
-let item1 = new Item("Piedra","Trozo solido de roca dura",64,64);
-let item2 = new Item("Manzana","El fruto que eva se comio cuando no debia",64,16);
-let item3 = new Item("Antorcha","Un palo con un cacho carbon que arde",64,32);
-let item4 = new Item("Espada de diamante","Espada hecha del material mas duro del planeta",1,1);
-let item5 = new Item("Pico de hierro","Pico hecho de 3 simples lingotes de hierro",1,1);
-let item6 = new Item("prueba","prueba",1,1);
-
-
-inventory [0][0]= item1;
-inventory [1][2]= item2;
-inventory [2][8]= item3;
-inventory [1][4]= item4;
-inventory [2][3]= item5;
-inventory [3][1]= item6;
+inventory[0][0] = item1;
+inventory[1][2] = item2;
+inventory[2][8] = item3;
+inventory[1][4] = item4;
+inventory[2][3] = item5;
+inventory[3][1] = item6;
 
 // ---------- MENU ----------
-/*
 let opcion;
 
 do {
-    let input = prompt("inventario DE MINECRAFT" +
+    let input = prompt("INVENTARIO DE MINECRAFT" +
         "\n======================================" +
-        "\n1. Mostrar inventario completo " +
+        "\n1. Mostrar inventario completo" +
         "\n2. Mostrar barra de accesos rápidos" +
         "\n3. Buscar un objeto" +
         "\n4. Añadir un objeto al inventario" +
@@ -73,115 +63,89 @@ do {
         "\n8. Mostrar el objeto más abundante" +
         "\n0. Salir");
 
-        if (input === null) {
-            opcion = 0;
-        } else {
-            opcion = parseInt(input,10); 
-            // Pasamos la opcion a INT ya que el switch no acepta strings, parseInt (cadena_a_convertir,base_a_la_que_convertir)
-        }
+    if (input === null) {
+        opcion = 0;
+    } else {
+        opcion = parseInt(input, 10);
+    }
 
     switch (opcion) {
         case 1:
             showInventory();
-        break;
-
+            break;
         case 2:
             showQuickAccessBar();
-        break;
-        
+            break;
         case 3:
             searchItem();
-        break;
-
+            break;
         case 4:
             addItem();
-        break;
-
+            break;
         case 5:
             moveItem();
-        break;
-
+            break;
         case 6:
             deleteItem();
-        break;
-
+            break;
         case 7:
             countFreeSpaces();
-        break;
-
+            break;
         case 8:
             getMostQuantityStack();
-        break;
-
+            break;
         case 0:
             break;
-
         default:
             alert("ERROR: Introduzca un valor entre 0 y 8");
-        break;
+            break;
     }
-    
-} while (opcion !== 0); 
-*/
+} while (opcion !== 0);
 
 // ---------- FUNCIONES ----------
 
 // Mostrar inventory
-function showInventory(){
+function showInventory() {
+    console.log("Inventario\n===========");
 
-    console.log("Inventario"+
-                "\n===========");
-
-
-        for (let i = 0; i < inventory.length; i++) {
+    for (let i = 0; i < inventory.length; i++) {
         let fila = "[";
         for (let j = 0; j < inventory[i].length; j++) {
             if (inventory[i][j] === undefined) {
-                fila += "VACIO" + "["+i+","+j+"]" + (j < inventory[i].length - 1 ? ", " : "" ) ; // Comprobacion ultimo elemento
+                fila += "VACIO" + "[" + i + "," + j + "]" + (j < inventory[i].length - 1 ? ", " : "");
             } else {
-                fila += inventory[i][j].name + "["+i+","+j+"]" + "("+inventory[i][j].quantity+")" + (j < inventory[i].length - 1 ? ", " : "") ;
+                fila += inventory[i][j].name + "[" + i + "," + j + "]" + "(" + inventory[i][j].quantity + ")" + (j < inventory[i].length - 1 ? ", " : "");
             }
-            
         }
         fila += "]";
-        
         console.log(fila);
     }
-
-    // console.table(inventory);
 }
 
-
-
 // Mostrar barra de accesos rapidos
-function showQuickAccessBar(){
+function showQuickAccessBar() {
     let quickAccesBar = inventory[0];
     let fila = "[";
 
     quickAccesBar.forEach((element, index) => { 
         let separador = (index < quickAccesBar.length - 1) ? ", " : ""; 
 
-        if(element === undefined){
-            fila += "VACIO"+separador; 
-        }else{
-            fila += element.showInfoShorted()+separador;
+        if (element === undefined) {
+            fila += "VACIO" + separador; 
+        } else {
+            fila += element.showInfoShorted() + separador;
         }
-
-        
     });
     fila += "]";
-    console.log("BARRA DE ACCESO RAPIDO"+
-        "\n=======================");
+    console.log("BARRA DE ACCESO RAPIDO\n=======================");
     console.log(fila);
 }
-
-
 
 // Buscar un item
 function searchItem() {
     let input = prompt("Introduce el nombre del item a buscar: ");
 
-    if (input === null || input.trim() === "") { // Si se introduce algo raro o nada se va
+    if (input === null || input.trim() === "") {
         alert("Introduce un item válido");
         return;
     }
@@ -191,12 +155,11 @@ function searchItem() {
     let quantityCounter = 0;
     let found = null;
 
-    // Recorrido de la matriz mediante funcion callback
     forEachSlot((actualItem, i, j) => {
         if (actualItem !== undefined && actualItem.name.toLowerCase() === itemToSearch) {
-            positions.push("["+i+"]"+"["+j+"]"); // .push añade al array que hemos creado antes lo que queramos, en este caso las posiciones
+            positions.push("[" + i + "][" + j + "]");
             quantityCounter += actualItem.quantity; 
-            if (!found) found = actualItem; // Añadimos el item a la variable ya que existe, para poder tratarlo luego, esto solo ocurre una vez.
+            if (!found) found = actualItem;
         }
     });
 
@@ -205,19 +168,15 @@ function searchItem() {
         return;
     }
 
-    // La salida formateada
     console.log("BUSCANDO ITEM\n==============");
-    console.log("Item: "+found.name);
-    console.log("Descripción: "+found.description);
-    console.log("Ubicaciones: "+positions.join(", ")); // Simplemente añadimos una ", " entre cada indice del array
-    console.log("Cantidad total: "+quantityCounter);
+    console.log("Item: " + found.name);
+    console.log("Descripción: " + found.description);
+    console.log("Ubicaciones: " + positions.join(", "));
+    console.log("Cantidad total: " + quantityCounter);
 }
-
-
 
 // Añadir un item
 function addItem() {
-
     let inputName = prompt("Introduzca el nombre del ítem: ");
     if (!inputName || inputName.trim() === "") {
         alert("Operación cancelada o nombre no válido.");
@@ -225,20 +184,17 @@ function addItem() {
     }
 
     inputName = inputName.trim();
-    let existingItem = findItemInInventory(inputName); // Comprobacion de si el item ya existe dentro del inventario
+    let existingItem = findItemInInventory(inputName);
 
     let finalName = existingItem ? existingItem.name : inputName;
     let description;
     let maxStack;
 
-    // Si ya existe en el inventario, reutilizamos su información
     if (existingItem !== null) {
         description = existingItem.description;
         maxStack = existingItem.maxStack;
         alert("El ítem ya existe en el inventario. Stack máximo (" + maxStack + ").");
-
-    } else {// Si es nuevo, pedimos descripción y stack máximo
-
+    } else {
         description = prompt("Introduzca la descripción del ítem: ");
         if (description === null) return;
 
@@ -250,29 +206,22 @@ function addItem() {
         maxStack = parseInt(maxInput, 10);
     }
 
-
-    // Pedimos la cantidad total que el usuario desea añadir
     let canInput = prompt("Introduzca la cantidad que desea añadir: ");
     while (!Number.isInteger(Number(canInput)) || Number(canInput) <= 0) {
         canInput = prompt("ERROR: Debe introducir una cantidad entera positiva: ");
         if (canInput === null) return;
     }
 
-
-    // Variables de control de cantidad (necesarias para las operaciones de añadir)
     let remainingQuantity = parseInt(canInput, 10); 
     let originalRequested = remainingQuantity;
 
-
-
-    // Rellenamos los stacks existentes que tengan espacio, si remainingQuantity es 0, detenemos el recorrido devolviendo false
     forEachSlot((slot) => {
         if (remainingQuantity <= 0) return false;
 
         if (slot !== undefined && slot.name.toLowerCase() === finalName.toLowerCase()) {
             let availableSpace = slot.maxStack - slot.quantity;
 
-            if (availableSpace > 0) { // Añadimos la cantidad al slot y restamos del total del item
+            if (availableSpace > 0) {
                 let toAdd = Math.min(availableSpace, remainingQuantity);
                 slot.quantity += toAdd;
                 remainingQuantity -= toAdd;
@@ -280,178 +229,223 @@ function addItem() {
         }
     });
 
-
-
-    // Si aún sobra cantidad, ocupar casillas vacías (undefined)
     forEachSlot((slot, i, j) => {
         if (remainingQuantity <= 0) return false;
 
         if (slot === undefined) {
             let toAdd = Math.min(maxStack, remainingQuantity);
-
-            // Creamos un nuevo objeto Item independiente para esta casilla
             inventory[i][j] = new Item(finalName, description, maxStack, toAdd);
             remainingQuantity -= toAdd;
         }
     });
 
-
-    
-    // Resultado final + mensaje al usuario
     if (remainingQuantity === 0) {
-
         alert("Se añadieron con éxito las " + originalRequested + " unidades de " + finalName + ".");
-
     } else if (remainingQuantity < originalRequested) {
-
         let added = originalRequested - remainingQuantity;
-        alert("ERROR:Espacio insuficiente. Se pudieron añadir " + added + " unidades, pero " + remainingQuantity + " no cabian.");
-
+        alert("ERROR: Espacio insuficiente. Se pudieron añadir " + added + " unidades, pero " + remainingQuantity + " no cabían.");
     } else {
-
-        alert("ERROR:Inventario lleno No hay espacio disponible para añadir " + finalName + ".");
-
+        alert("ERROR: Inventario lleno. No hay espacio disponible para añadir " + finalName + ".");
     }
 
     showInventory();
 }
-
-
 
 // Mover un item
 function moveItem() {
     showInventory();
 
-    // Pido el item que voy a mover
     let inputPosition = prompt("Elija un item para mover: Ej: 0.0 - 0.2 - 3.5");
-    let cordinates = getCordinates(inputPosition);
+    let coordinates = getCordinates(inputPosition);
 
-    // Comprobacion de sintaxis y rango de cordenadas
-    while (!cordinates) {
+    while (!coordinates) {
         alert("ERROR: Introduzca unas coordenadas válidas");
         inputPosition = prompt("Elija un item para mover: Ej: 0.0 - 0.2 - 3.5");
-        cordinates = getCordinates(inputPosition); // Sin 'let': actualizamos la variable evaluada por el bucle
+        if (inputPosition === null) return;
+        coordinates = getCordinates(inputPosition);
     }
-    let inputItemPositions = cordinates;
-    console.log("Origen:", inputItemPositions);
 
-    // Selecciono el item
-    let selectedItem = findItemWithCordinates(inputItemPositions[0], inputItemPositions[1]);
+    let originRow = coordinates[0];
+    let originCol = coordinates[1];
+    let selectedItem = findItemWithCordinates(originRow, originCol);
 
-
-    // Si la casilla esta vacia, da error y salgo
     if (!selectedItem) {
         alert("La casilla seleccionada está vacía. No hay ningún ítem para mover.");
         return;
     }
 
-    // Compruebo si el item es un objeto y saco su nombre
-    let itemName = (typeof selectedItem === "object" && selectedItem !== null) 
-        ? selectedItem.name 
-        : selectedItem;
+    let itemName = (typeof selectedItem === "object" && selectedItem !== null) ? selectedItem.name : selectedItem;
 
-    // Pido la posicion a la que moverlo
     let outputPosition = prompt("Item elegido: " + itemName + "\nElija una posición a la que mover:");
-    cordinates = getCordinates(outputPosition);
+    coordinates = getCordinates(outputPosition);
 
-    // Comprobacion de sintaxis y rango de cordenadas otra vez
-    while (!cordinates) {
+    while (!coordinates) {
         alert("ERROR: Introduzca unas coordenadas válidas");
         outputPosition = prompt("Item elegido: " + itemName + "\nElija una posición a la que mover:");
-        cordinates = getCordinates(outputPosition);
+        if (outputPosition === null) return;
+        coordinates = getCordinates(outputPosition);
     }
-    let outputItemPositions = cordinates;
-    console.log("Destino:", outputItemPositions);
 
+    let targetRow = coordinates[0];
+    let targetCol = coordinates[1];
 
-    // Empezamos a mirar si la posicion esta vacía, si lo está movemos el item
-    // Si no esta vacía comprobamos si el item es el mismo y lo podemos añadir
-    // Si no es el mismo y no esta vacía, salimos
-    let targetItem = findItemWithCordinates(outputItemPositions[0], outputItemPositions[1]);
+    if (originRow === targetRow && originCol === targetCol) {
+        alert("La posición de destino es la misma que la de origen.");
+        return;
+    }
 
-        if (!targetItem) { // LA CASILLA ESTA VACIA
+    let targetItem = findItemWithCordinates(targetRow, targetCol);
 
-            console.log("La casilla está vacía, moviendo...");
+    if (!targetItem) {
+        inventory[targetRow][targetCol] = selectedItem;
+        inventory[originRow][originCol] = undefined;
+        alert("El objeto fue movido a la casilla [" + targetRow + ", " + targetCol + "].");
+    } else if (targetItem.name.toLowerCase() === selectedItem.name.toLowerCase()) {
+        let availableSpace = targetItem.maxStack - targetItem.quantity;
 
-        } 
-            else if (targetItem.name.toLowerCase() === selectedItem.name.toLowerCase()) { // EL ITEM ES EL MISMO
+        if (availableSpace <= 0) {
+            alert("El stack de destino ya está completo (" + targetItem.maxStack + "). No se pueden añadir más unidades.");
+            return;
+        }
 
-                console.log("El item es el mismo, comprobando si se puede añadir...");
+        if (selectedItem.quantity <= availableSpace) {
+            targetItem.quantity += selectedItem.quantity;
+            inventory[originRow][originCol] = undefined;
+            alert("Se agruparon todas las unidades en la casilla de destino.");
+        } else {
+            targetItem.quantity = targetItem.maxStack;
+            selectedItem.quantity -= availableSpace;
+            alert("Se llenó el stack de destino. Quedan " + selectedItem.quantity + " unidades en la posición de origen.");
+        }
+    } else {
+        alert("ERROR: Casilla ocupada por otro objeto (" + targetItem.name + ").");
+    }
 
-            } 
-                else { // EL ITEM NO ES EL MISMO
-
-                    alert("ERROR: Casilla no disponible");
-
-                }
-
-   
-    
+    showInventory();
 }
 
+// Eliminar un item
+function deleteItem() {
+    showInventory();
 
+    let inputPosition = prompt("Elija la posición del item a eliminar: Ej: 0.0 - 0.2 - 3.5");
+    let coordinates = getCordinates(inputPosition);
 
+    while (!coordinates) {
+        alert("ERROR: Introduzca unas coordenadas válidas");
+        inputPosition = prompt("Elija la posición del item a eliminar: Ej: 0.0 - 0.2 - 3.5");
+        if (inputPosition === null) return;
+        coordinates = getCordinates(inputPosition);
+    }
 
-function deleteItem(){
+    let row = coordinates[0];
+    let col = coordinates[1];
+    let selectedItem = findItemWithCordinates(row, col);
 
+    if (!selectedItem) {
+        alert("La casilla seleccionada ya está vacía. No hay nada que eliminar.");
+        return;
+    }
+
+    let confirmation = confirm("¿Está seguro de que desea eliminar " + selectedItem.name + " (" + selectedItem.quantity + " unidades) de la posición [" + row + ", " + col + "]?");
+
+    if (confirmation) {
+        inventory[row][col] = undefined;
+        alert("Objeto eliminado correctamente.");
+        showInventory();
+    } else {
+        alert("Operación cancelada.");
+    }
 }
 
+// Mostrar huecos libres
+function countFreeSpaces() {
+    let totalFree = 0;
+    let quickBarFree = 0;
 
+    forEachSlot((slot, i) => {
+        if (slot === undefined) {
+            totalFree++;
+            if (i === 0) {
+                quickBarFree++;
+            }
+        }
+    });
 
-
-function countFreeSpaces(){
-
+    console.log("HUECOS LIBRES\n=======================");
+    console.log("Huecos libres en todo el inventario: " + totalFree + " / 36");
+    console.log("Huecos libres en la barra rápida: " + quickBarFree + " / 9");
+    alert("Huecos libres totales: " + totalFree + "\nHuecos libres en barra rápida: " + quickBarFree);
 }
 
+// Mostrar el objeto más abundante
+function getMostQuantityStack() {
+    let totalsByName = {};
 
+    forEachSlot((slot) => {
+        if (slot !== undefined) {
+            let key = slot.name.toLowerCase();
+            if (!totalsByName[key]) {
+                totalsByName[key] = {
+                    name: slot.name,
+                    totalQuantity: 0
+                };
+            }
+            totalsByName[key].totalQuantity += slot.quantity;
+        }
+    });
 
+    let keys = Object.keys(totalsByName);
 
-function getMostQuantityStack(){
+    if (keys.length === 0) {
+        alert("El inventario está completamente vacío.");
+        return;
+    }
 
+    let mostAbundant = null;
+
+    keys.forEach((key) => {
+        if (!mostAbundant || totalsByName[key].totalQuantity > mostAbundant.totalQuantity) {
+            mostAbundant = totalsByName[key];
+        }
+    });
+
+    console.log("OBJETO MÁS ABUNDANTE\n=====================");
+    console.log("Nombre: " + mostAbundant.name);
+    console.log("Cantidad total acumulada: " + mostAbundant.totalQuantity);
+    alert("El objeto más abundante es " + mostAbundant.name + " con un total de " + mostAbundant.totalQuantity + " unidades.");
 }
-
 
 // ---------- FUNCIONES AÑADIDAS ----------
 
-// Funcion auxiliar para recorrer la matriz devolviendo lo que requiera la funcion.
-// BTW el parametro callback no es un numero ni texto ni nada, lo que hace es esperar instrucciones ejecutables, una funcion vaya.
 function forEachSlot(callback) {
     for (let i = 0; i < inventory.length; i++) {
         for (let j = 0; j < inventory[i].length; j++) {
-            let continueLoop = callback(inventory[i][j], i, j); // Cuando llega aqui, devuelve a la funcion que llame esta funcion: El objeto, la fila y la columna
-            if (continueLoop === false) { // Si el callback devuelve false, rompemos el recorrido
+            let continueLoop = callback(inventory[i][j], i, j);
+            if (continueLoop === false) {
                 return;
             }
         }
     }
 }
 
-
-
-// Buscar y devuelve la referencia del item en caso de encontrarlo
 function findItemInInventory(itemToSearch) {
     if (!itemToSearch) return null;
 
     let searchName = (typeof itemToSearch === 'object' && itemToSearch !== null) ? itemToSearch.name : itemToSearch;
-
     searchName = searchName.trim().toLowerCase();
     let found = null;
 
-    // Busqueda reutilizando forEachSlot
     forEachSlot((actualItem) => {
         if (actualItem !== undefined && actualItem.name.toLowerCase() === searchName) {
             found = actualItem;
-            return false; // Detenemos la busqueda al encontrar la primera coincidencia
+            return false;
         }
     });
 
     return found;
 }
 
-
-
-
-// Busca un item usando cordenadas como parametro, comprueba rangos y devuelve el item
 function findItemWithCordinates(row, col) {
     if (row < 0 || row >= inventory.length) {
         return null;
@@ -464,15 +458,9 @@ function findItemWithCordinates(row, col) {
     return item !== undefined ? item : null;
 }
 
-
-
-
-// De un texto tipo: 0.1 o 0,1 devuelve unas cordenadas
 function getCordinates(input) {
     let textInput = String(input);
-
     let regex = /^([0-3])[.,]([0-8])$/;
-    
     let coincidence = textInput.match(regex);
 
     if (!coincidence) {
@@ -482,11 +470,5 @@ function getCordinates(input) {
     let row = parseInt(coincidence[1], 10);
     let column = parseInt(coincidence[2], 10);
 
-    return ([row, column]) ? [row, column] : null;
+    return [row, column];
 }
-
-
-// ---------- PRUEBAS ----------
-
-showInventory();
-showQuickAccessBar();
