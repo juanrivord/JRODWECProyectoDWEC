@@ -1,7 +1,7 @@
 # ⛏️ Inventario de Minecraft — Simulador en JavaScript ES6
 
 > **Desarrollo Web en Entorno Cliente (DWEC)**  
-> **Entrega 1:**
+> **Entrega 1:** La documentación en su primer estado es generada mediante DeepWiki y Gemini (Versión Pro), sin embargo ha sido revisada y cambiada manualmente por el dueño.
 
 ---
 
@@ -29,7 +29,7 @@
 
 ## 📌 Descripción General
 
-El objetivo de esta práctica es implementar la lógica de gestión de inventario de un jugador de Minecraft en un entorno de ejecución puramente nativo. La interacción se realiza íntegramente a través de la consola del navegador (`console.log`) y ventanas modales estándar (`prompt`, `alert`, `confirm`), sin interactuar con el árbol DOM.
+El objetivo de esta práctica es implementar la lógica de gestión de inventario de un jugador de Minecraft en un entorno de ejecución puramente nativo. La interacción se realiza íntegramente a través de la consola del navegador (`console.log`) y ventanas modales estándar (`prompt`, `alert`, `confirm`).
 
 El sistema permite manipular objetos apilables (*stacks*), moverlos entre ranuras, transferir excedentes, eliminar ítems con confirmación y analizar estadísticas en tiempo real.
 
