@@ -1,0 +1,15 @@
+{
+    "nombre": "Alex",
+    "estadisticas":
+    {
+        "nivel": 4,
+        "vida": 80
+    },
+    "posicion":
+    {
+        "zona": "Bosque",
+        "x": 10,
+        "y": 5
+    },
+    "inventario": ["arco","pocion"]
+}
