@@ -11,12 +11,26 @@ fetch("preferencias.json")
 
   .catch(error => console.error('Error en el proceso:', error.message));
 
-let datosJSON = JSON.parse(localStorage.getItem("preferencias"))
+let datosJSON = JSON.parse(localStorage.getItem("preferencias"));
 
 console.log("Datos extraidos:" 
-  + "\nnombre: "+datosJSON.usuario
-  + "\nsonido: "+datosJSON.sonido
-  + "\nvolumen: "+datosJSON.volumen
-  + "\nodiomas: "+datosJSON.idiomas
-  + "\nfavoritos: "+datosJSON.favoritos
-);
+  + "\nnombre: "+datosJSON.usuario 
+  + "\nsonido: "+datosJSON.sonido 
+  + "\nvolumen: "+datosJSON.volumen 
+  + "\nodiomas: "+datosJSON.idiomas 
+  + "\nfavoritos: "+datosJSON.favoritos 
+); 
+
+console.log("Primer idioma: " + datosJSON.idiomas[0]);
+console.log("Favoritos: ");
+
+for (let i = 0; i < datosJSON.favoritos.length; i++) {
+  console.log(datosJSON.favoritos[i]);
+}
+
+datosJSON.favoritos[2] = "Montaña";
+datosJSON.volumen = 40;
+datosJSON.sonido = false;
+
+const texto = JSON.stringify(datosJSON);
+console.log(texto);
