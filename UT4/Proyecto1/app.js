@@ -5,6 +5,7 @@ const archivoInventario = new URL("./inventario.json", import.meta.url);
 const archivoTemporal = new URL("./inventario.tmp", import.meta.url);
 
 const inventario = JSON.parse(await readFile(archivoInventario, "utf8"));
+
 if (!Number.isSafeInteger(inventario?.piedras) || inventario.piedras < 0) {
   throw new Error("inventario.json debe contener una cantidad válida de piedras");
 }
@@ -41,9 +42,11 @@ const recursos = {
 const servidor = http.createServer(async (req, res) => {
   console.log(req.method, req.url);
   const ruta = req.url.split("?")[0];
+
   if (ruta === "/inventario" && req.method === "GET") {
     return responderJSON(res, inventario);
   }
+
   if (ruta === "/inventario" && req.method === "POST") {
     try {
       return responderJSON(res, await añadirPiedra());
@@ -52,10 +55,12 @@ const servidor = http.createServer(async (req, res) => {
       return res.end("No se pudo guardar el inventario");
     }
   }
+
   if (req.method !== "GET" || !Object.hasOwn(recursos, ruta)) {
     res.statusCode = 404;
     return res.end("Recurso no encontrado");
   }
+
   const [archivo, tipo] = recursos[ruta];
 
   try {
@@ -67,6 +72,7 @@ const servidor = http.createServer(async (req, res) => {
     res.statusCode = 500;
     res.end("Error al leer el archivo");
   }
+  
 });
 
 servidor.listen(3000, "127.0.0.1", () => {
