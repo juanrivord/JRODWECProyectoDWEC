@@ -1,35 +1,16 @@
-const TITLE = document.getElementById("titulo");
-const AUTHOR = document.getElementById("autor");
-const SUMMARY = document.getElementById("resumen");
-const DATE = document.getElementById("fecha");
+const DOM_CULTURE = document.getElementById("cultura");
+const DOM_CULTURE_FIRST_P = DOM_CULTURE.querySelector("p");
+const DOM_CULTURE_LINK = DOM_CULTURE.querySelector(".destacado");
 
-console.log("Titulo"+
-    "\n------------"+
-    "\nEtiqueta: " + TITLE.tagName +
-    "\nContenido: " + TITLE.textContent +
-    "\nElemento: " + TITLE);
+const DOM_CULTURE_IMPORTANT_SUMMARY = DOM_CULTURE.querySelector(".resumen.importante");
+const DOM_CULTURE_IMPORTANT_SUMMARY2 = DOM_CULTURE.querySelector(".resumen .importante");
 
-console.log("Autor"+
-    "\n------------"+
-    "\nEtiqueta: " + AUTHOR.tagName +
-    "\nContenido: " + AUTHOR.textContent +
-    "\nElemento: " + AUTHOR);
+console.log("Elemento DOM cultura: " + DOM_CULTURE.textContent);
 
+console.log("Primer <p>: " + DOM_CULTURE_FIRST_P.textContent);
 
-console.log("Resumen"+
-    "\n------------"+
-    "\nEtiqueta: " + SUMMARY.tagName +
-    "\nContenido: " + SUMMARY.textContent +
-    "\nElemento: " + SUMMARY);
+console.log("Enlace destacado: " + DOM_CULTURE_LINK.textContent);
 
-if(DATE != null){
+console.log("Resumen importante: " + DOM_CULTURE_IMPORTANT_SUMMARY.textContent);
 
-    console.log("Fecha"+
-    "\n------------"+
-    "\nEtiqueta: " + DATE.tagName +
-    "\nContenido: " + DATE.textContent +
-    "\nElemento: " + DATE);
-    
-} else{
-    console.error("No se ha encontrado fecha");
-}
+console.log(DOM_CULTURE_IMPORTANT_SUMMARY2);
