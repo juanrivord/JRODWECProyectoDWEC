@@ -9,19 +9,17 @@ let producto = {
     caracteristicas: Array.from(document.querySelectorAll("ul li"), li => li.textContent)
 }
 
-const DOM_NAME = document.querySelector(".nombre");
-DOM_NAME.innerHTML=producto.nombre;
+function updateData(){
 
-const DOM_DESCRIPTION = document.querySelector(".descripcion");
-DOM_DESCRIPTION.innerHTML=producto.descripcion;
-
-const DOM_PRICE = document.querySelector(".precio");
-DOM_PRICE.innerHTML=producto.precio.toFixed(2);
-
-const DOM_CHARACTERISTICS = document.querySelectorAll(".caracteristicas li");
-
-let i = 0;
-DOM_CHARACTERISTICS.forEach((li) => {
+const DOM_NAME = document.querySelector(".nombre").textContent=producto.nombre;
+const DOM_DESCRIPTION = document.querySelector(".descripcion").textContent=producto.descripcion;
+const DOM_PRICE = document.querySelector(".precio").textContent=producto.precio.toFixed(2);
+const DOM_CHARACTERISTICS = document.querySelectorAll(".caracteristicas li").forEach((li, i) => {
     DOM_CHARACTERISTICS[i].innerHTML = i + ". " + producto.caracteristicas[i];
     i++;
 });
+}
+
+
+updateData();
+updateData();
