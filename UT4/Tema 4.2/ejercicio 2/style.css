@@ -1,0 +1,7 @@
+.aviso { padding: 12px; }
+
+.correcto { background-color: lightgreen; }
+
+.error { color: red; }
+
+.oculto { display: none; }
