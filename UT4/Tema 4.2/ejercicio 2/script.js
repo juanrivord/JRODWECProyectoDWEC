@@ -19,7 +19,6 @@ function mostrarResultado(res){
 
 mostrarResultado("correcto");
 
-
 console.log("Color calculado: " + getComputedStyle(DOM_P).backgroundColor);
 console.log("Tiene la clase correcto: " + DOM_P.classList.contains("correcto"));
 console.log("Tiene la clase error: " + DOM_P.classList.contains("error"));
