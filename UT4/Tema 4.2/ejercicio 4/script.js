@@ -12,14 +12,12 @@ console.log("Li anterior: " + priorLi.textContent.trim());
 console.log("Li siguiente: " + postLi.textContent.trim());
 
 
-console.log("¿El Li actual tiene la clase actual? -> " + linkLi.matches(".actual"))
+console.log("¿El Li actual tiene la clase actual? -> " + linkLi.matches(".actual"));
 
-console.log("children DE SECTION: "+
-    "\n--------------------")
+console.log("children DE SECTION: "+"\n--------------------");
 console.log(linkSection.children);
 
-console.log("childNodes DE SECTION: "+
-    "\n--------------------")
+console.log("childNodes DE SECTION: "+"\n--------------------");
 console.log(linkSection.childNodes);
 
 console.log("previusElementSibling del primer Li -> " + priorLi.previousElementSibling);
