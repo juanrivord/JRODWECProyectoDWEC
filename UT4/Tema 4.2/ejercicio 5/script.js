@@ -17,17 +17,19 @@ function crearFicha(curso) {
     const titulo = document.createElement("h2");
     titulo.textContent = curso.titulo;
 
-    const estado = document.createElement("p"); 
+    const estado = document.createElement("p");
     const completo = curso.plazas === 0;
-
     estado.textContent = completo ? "Curso completo" : "Plazas disponibles: " + curso.plazas; 
     ficha.classList.toggle("completo", completo); 
+
+    const nivel = document.createElement("p");
+    nivel.textContent = "Dificultad: "+ curso.nivel;
 
     const boton = document.createElement("button"); 
     boton.type = "button"; boton.textContent = "Inscribirme"; 
     boton.disabled = completo; 
 
-    ficha.append(titulo, estado, boton); 
+    ficha.append(titulo, estado, nivel, boton); 
     return ficha;
 }
 
@@ -42,14 +44,12 @@ function renderizarCursos(cursos) {
         } 
 
     aviso.hidden = cursos.length > 0; 
-} 
-renderizarCursos(cursos);
+}
+
+
 
 renderizarCursos(cursos);
 console.log(document.querySelectorAll(".curso").length);
 
- // 2 renderizarCursos([]);
+// renderizarCursos([]);
  // 0 fichas y aviso visible 
-
- // renderizarCursos(cursos); 
- // // 2 fichas y aviso oculto
